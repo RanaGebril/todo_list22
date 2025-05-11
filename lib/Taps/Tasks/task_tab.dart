@@ -2,9 +2,17 @@ import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list22/Taps/Tasks/task_item.dart';
 import 'package:todo_list22/app_colors.dart';
+import 'package:todo_list22/firebaseFunctions.dart';
 
-class TaskTab extends StatelessWidget {
-  const TaskTab({super.key});
+class TaskTab extends StatefulWidget {
+   TaskTab({super.key});
+
+  @override
+  State<TaskTab> createState() => _TaskTabState();
+}
+
+class _TaskTabState extends State<TaskTab> {
+  DateTime taskDate=DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +22,15 @@ class TaskTab extends StatelessWidget {
           height: 10,
         ),
         CalendarTimeline(
-          initialDate: DateTime.now(),
+          initialDate:taskDate,
           firstDate: DateTime.now().subtract(Duration(days: 365*2)),
           lastDate: DateTime.now().add(Duration(days: 365*2)),
-          onDateSelected: (date) => print(date),
+          onDateSelected: (date) {
+            // date is the date come from the calender
+            taskDate=date;
+            setState(() {
+            });
+          },
           leftMargin: 20,
           monthColor: AppColors.gray_color3,
           dayColor: AppColors.blue_color,
@@ -30,19 +43,46 @@ class TaskTab extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-        Expanded(
-          child: ListView.separated(
-              itemBuilder: (context, index) {
-                return TaskItem();
-              },
-              separatorBuilder: (context, index) {
-                return SizedBox(
-                  height: 5,
+        StreamBuilder(
+            stream: Firebasefunctions.getTasks(taskDate),
+            builder:  (context, snapshot) {
+              if(snapshot.hasError){
+                return Center(
+                  child: Text("error"),
                 );
-              },
-              itemCount: 20
-          ),
-        )
+              }
+              if(snapshot.connectionState==ConnectionState.waiting){
+                return Center(
+                  child: CircularProgressIndicator(
+
+                  ),
+                );
+              }
+
+              // map list of snapshots to list of task model
+              var tasks=snapshot.data?.docs.map((doc) => doc.data()).toList();
+              if(tasks!.isEmpty){
+                return Center(
+                  child: Text("No tasks"),
+                );
+              }
+
+              return Expanded(
+                    child: ListView.separated(
+                        itemBuilder: (context, index) {
+                          return TaskItem(taskModel: tasks[index]);
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox(
+                            height: 5,
+                          );
+                        },
+                        itemCount: tasks.length
+                    ),
+                  );
+
+            },)
+        //
 
       ],
 

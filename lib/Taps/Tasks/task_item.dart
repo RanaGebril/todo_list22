@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_list22/app_colors.dart';
+import 'package:todo_list22/firebaseFunctions.dart';
+import 'package:todo_list22/models/task_models.dart';
 
 
 class TaskItem extends StatelessWidget {
-  const TaskItem({super.key});
+  TaskModel taskModel;
+  TaskItem({super.key,required this.taskModel});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class TaskItem extends StatelessWidget {
 
           children: [
             SlidableAction(
-              onPressed: null,
+              onPressed: (context) => Firebasefunctions.deleteTask(taskModel.id),
               backgroundColor: AppColors.red_color,
               foregroundColor: AppColors.white_color,
               icon: Icons.delete,
@@ -69,13 +72,13 @@ class TaskItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment:CrossAxisAlignment.start ,
                   children: [
-                    Text("task",
+                    Text(taskModel.title,
                       style:GoogleFonts.poppins(
                           color: AppColors.blue_color,
                           fontWeight: FontWeight.w700,
                           fontSize: 18
                       ) ,),
-                    Text("description",
+                    Text(taskModel.subTitle,
                       style:GoogleFonts.roboto(
                           color: AppColors.gray_color2,
                           fontWeight: FontWeight.w400,
@@ -100,6 +103,6 @@ class TaskItem extends StatelessWidget {
           ),
         ),
       ),
-    );;
+    );
   }
 }

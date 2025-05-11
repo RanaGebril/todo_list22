@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_list22/app_colors.dart';
+import 'package:todo_list22/firebaseFunctions.dart';
+import 'package:todo_list22/models/task_models.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
    AddTaskBottomSheet({super.key});
@@ -95,10 +97,15 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
           ),
           ElevatedButton(
             onPressed: (){
-              // TaskModel task=TaskModel(title: titleController.toString(),
-              //     subTitle: subTitleController.toString(),
-              //     date: selectedDate!.millisecondsSinceEpoch);
-              // Firebasefunctions.addTask(task);
+              TaskModel task=TaskModel(
+                  title: titleController.text,
+                  subTitle: subTitleController.text,
+                  // to sdd the date at the start of the day 00:00
+                  date: DateUtils.dateOnly(selectedDate!)
+                      .millisecondsSinceEpoch);
+              Firebasefunctions.addTask(task).then((value){
+                Navigator.pop(context);
+              });
             },
 
               child: Text("Add Task",
