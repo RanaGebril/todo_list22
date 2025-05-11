@@ -1,0 +1,31 @@
+
+import 'package:flutter/material.dart';
+import 'package:todo_list22/home_screen.dart';
+import 'package:todo_list22/splash_screen.dart';
+
+void main() async{
+  // tell the app there is an initialization before runApp
+
+
+  //initialize firebase
+
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: HomeScreen.route_name,
+      routes: {
+        SplashScreen.route_name: (context) => SplashScreen(),
+        HomeScreen.route_name: (context) => HomeScreen()
+      },
+    );
+  }
+}
+
