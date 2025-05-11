@@ -1,13 +1,18 @@
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_list22/firebase_options.dart';
 import 'package:todo_list22/home_screen.dart';
 import 'package:todo_list22/splash_screen.dart';
 
 void main() async{
   // tell the app there is an initialization before runApp
-
+  WidgetsFlutterBinding.ensureInitialized();
 
   //initialize firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(const MyApp());
 }

@@ -60,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context: context,
 
                 // to allow the bottom sheet to go up when the keyboard opened
+              isScrollControlled: true,
                 builder: (context) => Padding(
                   padding:  EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                   child: AddTaskBottomSheet(),
