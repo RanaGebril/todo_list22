@@ -44,6 +44,8 @@ class _TaskTabState extends State<TaskTab> {
           height: 10,
         ),
         StreamBuilder(
+
+            // get the data of the data i opened in the time line
             stream: Firebasefunctions.getTasks(taskDate),
             builder:  (context, snapshot) {
               if(snapshot.hasError){
