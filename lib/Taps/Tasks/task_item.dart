@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todo_list22/Taps/Tasks/edit_task.dart';
 import 'package:todo_list22/app_colors.dart';
 import 'package:todo_list22/firebaseFunctions.dart';
 import 'package:todo_list22/models/task_models.dart';
@@ -35,7 +36,6 @@ class TaskItem extends StatelessWidget {
             SlidableAction(
               onPressed: (context) => Firebasefunctions.deleteTask(taskModel.id),
               backgroundColor: AppColors.red_color,
-              foregroundColor: AppColors.white_color,
               icon: Icons.delete,
               label: 'Delete',
               borderRadius: BorderRadius.only(
@@ -45,10 +45,13 @@ class TaskItem extends StatelessWidget {
               padding: EdgeInsets.zero,
               // spacing: ,
             ),
-            const SlidableAction(
-              onPressed: null,
-              backgroundColor: Color(0xFF21B7CA),
-              foregroundColor: Colors.white,
+            SlidableAction(
+              onPressed:(context) {
+                Navigator.pushNamed(context, EditTask.route_name,
+                arguments: taskModel);
+
+              },
+              backgroundColor: AppColors.blue_color,
               icon: Icons.edit,
               label: 'edit',
             ),
@@ -88,17 +91,34 @@ class TaskItem extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              ElevatedButton(onPressed: (){},
+
+              taskModel.isDone==true ?
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text("Done!",
+                  style: GoogleFonts.poppins(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.green_color
+                  ),
+                ),
+              )
+                  : ElevatedButton(onPressed: (){
+                taskModel.isDone=true;
+                Firebasefunctions.updateTask(taskModel);
+              },
                   style: ElevatedButton.styleFrom(
                       elevation: 15,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                       backgroundColor: AppColors.blue_color,
                     padding: EdgeInsets.all(5),
                   ),
-                  child: Icon(Icons.done,
+                  child:
+                  Icon(Icons.done,
                     color: AppColors.white_color,
                     size: 30,
-                    weight: 100,)),
+                    weight: 100,))
+
             ],
           ),
         ),

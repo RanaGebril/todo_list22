@@ -1,6 +1,7 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_list22/Taps/Tasks/edit_task.dart';
 import 'package:todo_list22/firebase_options.dart';
 import 'package:todo_list22/home_screen.dart';
 import 'package:todo_list22/splash_screen.dart';
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
       initialRoute: HomeScreen.route_name,
       routes: {
         SplashScreen.route_name: (context) => SplashScreen(),
-        HomeScreen.route_name: (context) => HomeScreen()
+        HomeScreen.route_name: (context) => HomeScreen(),
+        EditTask.route_name: (context) => EditTask(),
       },
     );
   }

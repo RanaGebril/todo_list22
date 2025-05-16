@@ -51,4 +51,7 @@ class Firebasefunctions {
 
   }
 
+  static updateTask(TaskModel task){
+    getTasksCollection().doc(task.id).update(task.toJson());
+  }
 }
