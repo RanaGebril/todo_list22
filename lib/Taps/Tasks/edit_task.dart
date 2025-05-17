@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_list22/app_colors.dart';
+import 'package:todo_list22/app_theme_data.dart';
 import 'package:todo_list22/firebaseFunctions.dart';
 import 'package:todo_list22/models/task_models.dart';
 
@@ -20,26 +21,16 @@ class _EditTaskState extends State<EditTask> {
     var model=ModalRoute.of(context)?.settings.arguments as TaskModel;
 
     return Scaffold(
-       backgroundColor: AppColors.primary_light,
+
       appBar: AppBar(
         title: Text("To Do List",
-          style: GoogleFonts.poppins(
-              color: AppColors.white_color,
-              fontSize: 22,
-              fontWeight: FontWeight.w700
-          ),
+          style: TextTheme.of(context).titleLarge
         ),
-        backgroundColor: AppColors.blue_color,
+
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: Card(
-          color: AppColors.white_color,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25)
-          ),
-          elevation: 50,
-          shadowColor: AppColors.gray_color1,
           child: Padding(
             padding: const EdgeInsets.all(25),
             child: Column(
@@ -49,11 +40,7 @@ class _EditTaskState extends State<EditTask> {
 
               children: [
                 Text("Edit Task",
-                  style: GoogleFonts.poppins(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.gray_color1,
-                  ),
+                  style: TextTheme.of(context).titleMedium,
                   textAlign: TextAlign.center,),
 
                 SizedBox(
@@ -68,14 +55,8 @@ class _EditTaskState extends State<EditTask> {
                   },
                   decoration: InputDecoration(
                       label:   Text("Title",
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.gray_color1,
-                        ),),
-
+                        style: TextTheme.of(context).titleSmall),
                   ),
-
                 ),
 
                 SizedBox(
@@ -89,11 +70,7 @@ class _EditTaskState extends State<EditTask> {
                   },
                   decoration: InputDecoration(
                     label:   Text("description",
-                      style: GoogleFonts.poppins(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.gray_color1,
-                      ),),
+                      style: TextTheme.of(context).titleSmall),
 
                   ),
 
@@ -104,11 +81,7 @@ class _EditTaskState extends State<EditTask> {
                 ),
 
                 Text("Select time",
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.gray_color1,
-                  ),),
+                  style: TextTheme.of(context).titleSmall),
 
                 SizedBox(
                   height: 15,
@@ -126,11 +99,11 @@ class _EditTaskState extends State<EditTask> {
                   },
                   child: Text(DateFormat.yMd().format(DateTime.fromMillisecondsSinceEpoch(model.date)),
                     textAlign:TextAlign.center,
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.gray_color4,
-                    ),),
+                      style: TextTheme.of(context).titleSmall?.copyWith(
+                        color: AppColors.gray_color3
+
+                      ),
+                    ),
                 ),
 
                 SizedBox(
@@ -144,20 +117,11 @@ class _EditTaskState extends State<EditTask> {
 
                     },
                     child: Text("Edit",
-                      style: GoogleFonts.poppins(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.white_color,
+                      style: TextTheme.of(context).titleSmall?.copyWith(
+                          color: AppColors.white_color
                       ),
                     ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.blue_color,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    disabledBackgroundColor: AppColors.blue_color
-
-                  ),
+                  //
 
                 ),
 
