@@ -2,6 +2,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list22/Taps/Tasks/edit_task.dart';
+import 'package:todo_list22/app_theme_data.dart';
 import 'package:todo_list22/firebase_options.dart';
 import 'package:todo_list22/home_screen.dart';
 import 'package:todo_list22/splash_screen.dart';
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.light,
+      theme: AppThemeData.lightMode,
+      darkTheme: AppThemeData.darkMode,
       initialRoute: HomeScreen.route_name,
       routes: {
         SplashScreen.route_name: (context) => SplashScreen(),
