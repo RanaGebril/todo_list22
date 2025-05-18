@@ -4,6 +4,7 @@ class TaskModel {
   String subTitle;
   int date;
   bool isDone;
+  String userId;
 
   TaskModel({
     this.id = "",
@@ -11,6 +12,7 @@ class TaskModel {
     required this.subTitle,
     required this.date,
     this.isDone = false,
+    required this.userId
   });
 
   // firebase understand map , app understand object
@@ -22,6 +24,8 @@ class TaskModel {
         date: json["date"],
         id: json["id"],
         isDone: json["isDone"],
+      userId: json["userId"]
+
       );
 
   Map<String, dynamic> toJson() {
@@ -31,6 +35,7 @@ class TaskModel {
       "date": date,
       "id": id,
       "isDone": isDone,
+      "userId":userId
     };
   }
 }

@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(
           "To Do List",
-              style: AppThemeData.lightMode.textTheme.titleLarge,
+              style: TextTheme.of(context).titleLarge
         ),
       ),
       bottomNavigationBar: BottomAppBar(

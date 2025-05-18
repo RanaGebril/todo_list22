@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+import 'package:todo_list22/app_colors.dart';
+
+class TextFormItem extends StatelessWidget {
+  TextEditingController controller;
+  String label;
+  TextInputType? type;
+  TextFormItem({required this.controller, required this.label,required this.type, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: type,
+      style: TextTheme.of(context).displaySmall,
+      decoration: InputDecoration(
+        label: Text(label, style: TextTheme.of(context).displaySmall),
+        focusColor: AppColors.blue_color,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+      ),
+    );
+  }
+}

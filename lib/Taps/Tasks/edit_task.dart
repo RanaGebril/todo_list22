@@ -21,6 +21,7 @@ class _EditTaskState extends State<EditTask> {
     var model=ModalRoute.of(context)?.settings.arguments as TaskModel;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
 
       appBar: AppBar(
         title: Text("To Do List",

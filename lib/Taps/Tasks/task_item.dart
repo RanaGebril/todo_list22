@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list22/Taps/Tasks/edit_task.dart';
 import 'package:todo_list22/app_colors.dart';
 import 'package:todo_list22/firebaseFunctions.dart';
 import 'package:todo_list22/models/task_models.dart';
+import 'package:todo_list22/providers/app_provider.dart';
 
 
 class TaskItem extends StatelessWidget {
@@ -13,18 +14,21 @@ class TaskItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var provider_opject=Provider.of<AppProvider>(context);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
       height: 115,
       decoration: BoxDecoration(
-        color: AppColors.white_color,
+        color: provider_opject.AppTheme==ThemeMode.light?
+        AppColors.white_color : AppColors.secondry_dark,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-          color: Colors.grey,
-          spreadRadius: 3,
+          color: provider_opject.AppTheme==ThemeMode.light?
+          AppColors.gray_color3 : AppColors.light_blue,
+          spreadRadius: 0,
           blurRadius: 5,
-          offset: Offset(0, 10),
+          offset: Offset(0, 3),
         )]
       ),
       child: Slidable(
@@ -76,17 +80,12 @@ class TaskItem extends StatelessWidget {
                   crossAxisAlignment:CrossAxisAlignment.start ,
                   children: [
                     Text(taskModel.title,
-                      style:GoogleFonts.poppins(
-                          color: AppColors.blue_color,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18
-                      ) ,),
+                      style: TextTheme.of(context).titleSmall?.copyWith(
+                        color: AppColors.blue_color
+                      )
+                    ),
                     Text(taskModel.subTitle,
-                      style:GoogleFonts.roboto(
-                          color: AppColors.gray_color2,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12
-                      ) ,)
+                      style: TextTheme.of(context).displaySmall)
                   ],
                 ),
               ),
@@ -96,11 +95,7 @@ class TaskItem extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text("Done!",
-                  style: GoogleFonts.poppins(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.green_color
-                  ),
+                  style: TextTheme.of(context).displayMedium
                 ),
               )
                   : ElevatedButton(onPressed: (){
@@ -108,17 +103,11 @@ class TaskItem extends StatelessWidget {
                 Firebasefunctions.updateTask(taskModel);
               },
                   style: ElevatedButton.styleFrom(
-                      elevation: 15,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                      backgroundColor: AppColors.blue_color,
                     padding: EdgeInsets.all(5),
                   ),
                   child:
                   Icon(Icons.done,
-                    color: AppColors.white_color,
-                    size: 30,
-                    weight: 100,))
-
+                  ))
             ],
           ),
         ),

@@ -5,6 +5,7 @@ class AppColors {
   static Color primary_dark=Color(0xff060E1E);
   static Color secondry_dark=Color(0xff141922);
   static Color blue_color=Color(0xff5D9CEC);
+  static Color light_blue=Color(0xff6faefc);
   static Color gray_color1=Color(0xff383838);
   static Color gray_color2=Color(0xff363636);
   static Color gray_color3=Color(0xff707070);
