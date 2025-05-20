@@ -43,6 +43,7 @@ dependencies:
   provider: ^6.1.5
   firebase_auth: ^5.5.3
   easy_localization: ^3.0.7+1
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
