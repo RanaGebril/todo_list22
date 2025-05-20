@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       themeMode: provider_opject.AppTheme,
       theme: AppThemeData.lightMode,
       darkTheme: AppThemeData.darkMode,
-      initialRoute: Signup.route_name,
+      initialRoute: SplashScreen.route_name,
       routes: {
         SplashScreen.route_name: (context) => SplashScreen(),
         HomeScreen.route_name: (context) => HomeScreen(),
