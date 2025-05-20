@@ -79,7 +79,6 @@ class AppThemeData {
       ),
 
 
-
       displaySmall: GoogleFonts.poppins(
         fontSize: 18,
         fontWeight: FontWeight.w400,
@@ -90,7 +89,17 @@ class AppThemeData {
         fontSize: 22,
         fontWeight: FontWeight.w700,
         color: AppColors.green_color
-    ),)
+    ),
+
+      labelSmall: GoogleFonts.poppins(
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
+          color: AppColors.gray_color3
+      ),
+
+    )
+
+
 
   );
 
@@ -177,12 +186,18 @@ class AppThemeData {
         ),
 
 
-
         displayMedium: GoogleFonts.poppins(
             fontSize: 22,
             fontWeight: FontWeight.w700,
             color: AppColors.green_color
-        ),)
+        ),
+
+        labelSmall: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            color: AppColors.gray_color5
+        ),
+      )
 
   );
 }

@@ -14,4 +14,5 @@ class AppColors {
   static Color white_color=Color(0xffFFFFFF);
   static Color green_color=Color(0xff61E757);
   static Color red_color=Color(0xffEC4B4B);
+  static Color dot_Color=Color(0xffd351a1);
 }

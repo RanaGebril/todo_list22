@@ -1,8 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list22/Taps/Tasks/task_tab.dart';
-import 'package:todo_list22/Taps/settings/settings_tab.dart';
-import 'package:todo_list22/app_theme_data.dart';
 import 'package:todo_list22/bottom_sheets/add_task_bottom_sheet.dart';
+import 'Taps/settings/settings_tab.dart';
 import 'app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "To Do List",
+            "appBarTitle".tr(),
               style: TextTheme.of(context).titleLarge
         ),
       ),

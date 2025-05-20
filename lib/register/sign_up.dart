@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list22/app_colors.dart';
@@ -23,7 +24,7 @@ class Signup extends StatelessWidget {
       // resizeToAvoidBottomInset: false,
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Sign Up", style: TextTheme.of(context).titleLarge),
+        title: Text("signUp".tr(), style: TextTheme.of(context).titleLarge),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -32,18 +33,18 @@ class Signup extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormItem(
-                label: "First name",
+                label: "firstName".tr(),
                 controller: firstNameController,
                   type: TextInputType.text
               ),
               SizedBox(height: 30),
-              TextFormItem(label: "Last Name", controller: lastNameController,type: TextInputType.text),
+              TextFormItem(label: "lastName".tr(), controller: lastNameController,type: TextInputType.text),
               SizedBox(height: 30),
               TextFormItem(controller: phoneController, label: "Phone",type: TextInputType.phone),
               SizedBox(height: 30),
-              TextFormItem(label: "Email", controller: emailController ,type: TextInputType.emailAddress),
+              TextFormItem(label: "email".tr(), controller: emailController ,type: TextInputType.emailAddress),
               SizedBox(height: 30),
-              TextFormItem(label: "Password", controller: passwordController ,type: TextInputType.text),
+              TextFormItem(label: "password".tr(), controller: passwordController ,type: TextInputType.text),
               SizedBox(height: 40),
 
               ElevatedButton(
@@ -66,12 +67,12 @@ class Signup extends StatelessWidget {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: Text("Error"),
+                            title: Text("error".tr()),
                             content: Text(message),
                             actions: [
                               ElevatedButton(
                                 onPressed: () => Navigator.pop(context),
-                                child: Text("try again"),
+                                child: Text("back".tr()),
                               ),
                             ],
                           );
@@ -84,7 +85,7 @@ class Signup extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Text(
-                    "Sign Up",
+                    "signUp".tr(),
                     style: TextTheme.of(
                       context,
                     ).titleSmall?.copyWith(color: AppColors.white_color),
@@ -104,11 +105,11 @@ class Signup extends StatelessWidget {
             TextSpan(
               children: [
                 TextSpan(
-                  text: "Already have an account?? ",
+                  text: "haveAccount".tr(),
                   style: TextTheme.of(context).displaySmall,
                 ),
                 TextSpan(
-                  text: "Log in",
+                  text: "logIn".tr(),
                   style: TextTheme.of(
                     context,
                   ).displaySmall?.copyWith(color: AppColors.blue_color),

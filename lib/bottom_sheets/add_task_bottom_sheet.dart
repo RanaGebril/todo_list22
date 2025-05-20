@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "Add new Task",
+            "addNewTask".tr(),
             style: TextTheme.of(context).titleMedium?.copyWith(
               fontSize:20
             ),
@@ -38,14 +39,14 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
           ),
           SizedBox(height: 10),
 
-          TextFormItem(controller: titleController, label: "Tittle", type: TextInputType.text,),
+          TextFormItem(controller: titleController, label: "taskTitle".tr(), type: TextInputType.text,),
           SizedBox(height: 25),
-          TextFormItem(controller: subTitleController, label: "Description" ,type: TextInputType.text),
+          TextFormItem(controller: subTitleController, label: "description".tr() ,type: TextInputType.text),
           SizedBox(height: 20),
 
           InkWell(
             onTap: () {
-              selectDateFun(context);
+              selectDateFun(context,provider_opject);
             },
             child: Text(
               selectedDate.toString().substring(0, 10),
@@ -70,7 +71,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               });
             },
             child: Text(
-              "Add Task",
+              "add".tr(),
               style: TextTheme.of(context).titleSmall?.copyWith(
                 color: AppColors.white_color,
               ),
@@ -81,7 +82,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
     );
   }
 
-  selectDateFun(BuildContext context) async {
+  selectDateFun(BuildContext context,AppProvider provider_opject) async {
     DateTime? chosenDate = await showDatePicker(
       context: context,
       initialDate: selectedDate,
@@ -90,17 +91,29 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
       builder: (context, child) {
         return Theme(
           data: ThemeData().copyWith(
-            colorScheme: ColorScheme(
-              primary: AppColors.blue_color,
-              onPrimary: AppColors.white_color,
-              surface: AppColors.white_color,
-              onSurface: AppColors.gray_color1,
-              secondary: AppColors.white_color,
-              brightness: Brightness.light,
-              onSecondary: Colors.transparent,
-              error: Colors.transparent,
-              onError: Colors.transparent,
-            ),
+              colorScheme: provider_opject.AppTheme==ThemeMode.light?
+              ColorScheme(
+                  primary: AppColors.blue_color,
+                  onPrimary: AppColors.white_color,
+                  surface: AppColors.white_color,
+                  onSurface: AppColors.gray_color1,
+                  secondary: AppColors.white_color,
+                  brightness: Brightness.light,
+                  onSecondary: Colors.transparent,
+                  error: Colors.transparent,
+                  onError: Colors.transparent
+              ):
+              ColorScheme(
+                  primary: AppColors.blue_color,
+                  onPrimary: AppColors.white_color,
+                  surface: AppColors.secondry_dark,
+                  onSurface: AppColors.white_color,
+                  secondary: AppColors.white_color,
+                  brightness: Brightness.light,
+                  onSecondary: Colors.transparent,
+                  error: Colors.transparent,
+                  onError: Colors.transparent
+              )
           ),
           child: child!,
         );

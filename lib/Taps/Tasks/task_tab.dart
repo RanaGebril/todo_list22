@@ -1,4 +1,5 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list22/Taps/Tasks/task_item.dart';
 import 'package:todo_list22/app_colors.dart';
@@ -19,12 +20,14 @@ class _TaskTabState extends State<TaskTab> {
     return Column(
       children: [
         SizedBox(height: 10),
+
         CalendarTimeline(
           initialDate: taskDate,
           firstDate: DateTime.now().subtract(Duration(days: 365 * 2)),
           lastDate: DateTime.now().add(Duration(days: 365 * 2)),
           onDateSelected: (date) {
-            // date is the date come from the calender
+            // date is the date come from the calender used when
+            // get the tasks to filter by data
             taskDate = date;
             setState(() {});
           },
@@ -33,18 +36,21 @@ class _TaskTabState extends State<TaskTab> {
           dayColor: AppColors.blue_color,
           activeDayColor: AppColors.white_color,
           activeBackgroundDayColor: AppColors.blue_color,
-          // selectableDayPredicate: (date) => date.day != 23,
-          dotColor: Color(0xffd351a1),
-          locale: 'en_ISO',
+          dotColor: AppColors.dot_Color,
+          locale: context.locale.toString()
         ),
+
         SizedBox(height: 10),
+
         StreamBuilder(
           // get the data of the data i opened in the time line
           stream: Firebasefunctions.getTasks(taskDate),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Center(child: Text("error"));
+              return Center(child: Text("error".tr(),
+                  style: TextTheme.of(context).labelSmall));
             }
+
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: CircularProgressIndicator(color: AppColors.blue_color),
@@ -53,8 +59,11 @@ class _TaskTabState extends State<TaskTab> {
 
             // map list of snapshots to list of task model
             var tasks = snapshot.data?.docs.map((doc) => doc.data()).toList();
+
             if (tasks!.isEmpty) {
-              return Center(child: Text("No tasks"));
+              return Center(child:
+              Text("noTasks".tr(),
+              style: TextTheme.of(context).labelSmall));
             }
 
             return Expanded(

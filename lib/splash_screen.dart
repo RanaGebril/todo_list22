@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list22/home_screen.dart';
+import 'package:todo_list22/providers/app_provider.dart';
 import 'app_colors.dart';
 import 'dart:async';
 
@@ -22,8 +24,11 @@ class _SplashScreenState extends State<SplashScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    var provider_object=Provider.of<AppProvider>(context);
     return Scaffold(
-        backgroundColor: AppColors.primary_light,
+        backgroundColor: provider_object.AppTheme==ThemeMode.light?
+        AppColors.primary_light:
+        AppColors.primary_dark,
         body:Column(
           mainAxisAlignment: MainAxisAlignment.center,
 

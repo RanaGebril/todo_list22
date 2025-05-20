@@ -1,10 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list22/app_colors.dart';
-import 'package:todo_list22/app_theme_data.dart';
 import 'package:todo_list22/firebaseFunctions.dart';
 import 'package:todo_list22/models/task_models.dart';
+import 'package:todo_list22/providers/app_provider.dart';
 
 class EditTask extends StatefulWidget {
   static const String route_name="edit";
@@ -19,12 +20,13 @@ class _EditTaskState extends State<EditTask> {
   @override
   Widget build(BuildContext context) {
     var model=ModalRoute.of(context)?.settings.arguments as TaskModel;
+    var provider_object=Provider.of<AppProvider>(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
 
       appBar: AppBar(
-        title: Text("To Do List",
+        title: Text("appBarTitle".tr(),
           style: TextTheme.of(context).titleLarge
         ),
 
@@ -35,12 +37,11 @@ class _EditTaskState extends State<EditTask> {
           child: Padding(
             padding: const EdgeInsets.all(25),
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
 
               children: [
-                Text("Edit Task",
+                Text("editTask".tr(),
                   style: TextTheme.of(context).titleMedium,
                   textAlign: TextAlign.center,),
 
@@ -49,14 +50,19 @@ class _EditTaskState extends State<EditTask> {
                 ),
 
 
+                Text("taskTitle".tr(),
+                    style: TextTheme.of(context).titleMedium?.copyWith(
+                      fontSize: 18
+                    )),
                 TextFormField(
                  initialValue: model.title,
                   onChanged: (newTitle) {
                     model.title=newTitle;
                   },
-                  decoration: InputDecoration(
-                      label:   Text("Title",
-                        style: TextTheme.of(context).titleSmall),
+                  style: TextTheme.of(context).labelSmall?.copyWith(
+                 color: provider_object.AppTheme==ThemeMode.light?
+                     AppColors.gray_color3:
+                     AppColors.gray_color4,
                   ),
                 ),
 
@@ -64,25 +70,29 @@ class _EditTaskState extends State<EditTask> {
                   height: 35,
                 ),
 
+                Text("description".tr(),
+                    style: TextTheme.of(context).titleMedium?.copyWith(
+                        fontSize: 18
+                    )),
                 TextFormField(
                   initialValue: model.subTitle,
                   onChanged: (newSubTitle) {
                     model.subTitle=newSubTitle;
                   },
-                  decoration: InputDecoration(
-                    label:   Text("description",
-                      style: TextTheme.of(context).titleSmall),
-
+                  style: TextTheme.of(context).labelSmall?.copyWith(
+                    color: provider_object.AppTheme==ThemeMode.light?
+                    AppColors.gray_color3:
+                    AppColors.gray_color4,
                   ),
-
-
                 ),
                 SizedBox(
                   height: 35,
                 ),
 
-                Text("Select time",
-                  style: TextTheme.of(context).titleSmall),
+                Text("selectTime".tr(),
+                  style: TextTheme.of(context).titleMedium?.copyWith(
+                      fontSize: 18
+                  )),
 
                 SizedBox(
                   height: 15,
@@ -91,7 +101,7 @@ class _EditTaskState extends State<EditTask> {
 
                 InkWell(
                   onTap: () async{
-                    DateTime newDate =await selectDateFun(context,model);
+                    DateTime newDate =await selectDateFun(context,model,provider_object);
                     if(newDate != null){
                       model.date=newDate.millisecondsSinceEpoch;
                     }
@@ -117,7 +127,7 @@ class _EditTaskState extends State<EditTask> {
                       Navigator.pop(context);
 
                     },
-                    child: Text("Edit",
+                    child: Text("saveChanges".tr(),
                       style: TextTheme.of(context).titleSmall?.copyWith(
                           color: AppColors.white_color
                       ),
@@ -138,7 +148,7 @@ class _EditTaskState extends State<EditTask> {
     );
   }
 
-  selectDateFun(BuildContext context,TaskModel model)async{
+  selectDateFun(BuildContext context,TaskModel model, AppProvider provider_opject)async{
     DateTime? chosenDate= await showDatePicker(
       context: context,
       initialDate: DateTime.fromMillisecondsSinceEpoch(model.date),
@@ -146,7 +156,8 @@ class _EditTaskState extends State<EditTask> {
       lastDate: DateTime.now().add(Duration(days: 365)),
       builder: (context, child) {
         return Theme(data: ThemeData().copyWith(
-            colorScheme: ColorScheme(
+            colorScheme: provider_opject.AppTheme==ThemeMode.light?
+            ColorScheme(
                 primary: AppColors.blue_color,
                 onPrimary: AppColors.white_color,
                 surface: AppColors.white_color,
@@ -156,7 +167,17 @@ class _EditTaskState extends State<EditTask> {
                 onSecondary: Colors.transparent,
                 error: Colors.transparent,
                 onError: Colors.transparent
-
+            ):
+            ColorScheme(
+                primary: AppColors.blue_color,
+                onPrimary: AppColors.white_color,
+                surface: AppColors.secondry_dark,
+                onSurface: AppColors.white_color,
+                secondary: AppColors.white_color,
+                brightness: Brightness.light,
+                onSecondary: Colors.transparent,
+                error: Colors.transparent,
+                onError: Colors.transparent
             )
         ),
             child: child!);

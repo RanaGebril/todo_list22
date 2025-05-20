@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -15,9 +16,11 @@ class TaskItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider_opject=Provider.of<AppProvider>(context);
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
       height: 115,
+
       decoration: BoxDecoration(
         color: provider_opject.AppTheme==ThemeMode.light?
         AppColors.white_color : AppColors.secondry_dark,
@@ -31,20 +34,25 @@ class TaskItem extends StatelessWidget {
           offset: Offset(0, 3),
         )]
       ),
+
       child: Slidable(
         startActionPane: ActionPane(
           motion: const DrawerMotion(),
           extentRatio: 0.5,
-
           children: [
             SlidableAction(
               onPressed: (context) => Firebasefunctions.deleteTask(taskModel.id),
               backgroundColor: AppColors.red_color,
               icon: Icons.delete,
-              label: 'Delete',
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15),
-                bottomLeft: Radius.circular(15),
+              label: 'delete'.tr(),
+              borderRadius:  context.locale.languageCode == 'en'?
+              BorderRadius.only(
+                topRight: Radius.circular(15),
+                bottomRight: Radius.circular(15)
+              ):
+              BorderRadius.only(
+                  topLeft: Radius.circular(0),
+                  bottomLeft: Radius.circular(0)
               ),
               padding: EdgeInsets.zero,
               // spacing: ,
@@ -53,11 +61,19 @@ class TaskItem extends StatelessWidget {
               onPressed:(context) {
                 Navigator.pushNamed(context, EditTask.route_name,
                 arguments: taskModel);
-
               },
               backgroundColor: AppColors.blue_color,
               icon: Icons.edit,
-              label: 'edit',
+              label: 'edit'.tr(),
+              borderRadius:  context.locale.languageCode == 'ar'?
+              BorderRadius.only(
+                  topRight: Radius.circular(15),
+                  bottomRight: Radius.circular(15)
+              ):
+              BorderRadius.only(
+                  topLeft: Radius.circular(0),
+                  bottomLeft: Radius.circular(0)
+              ),
             ),
           ],
         ),
@@ -66,7 +82,7 @@ class TaskItem extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                margin:EdgeInsets.only(right: 10,left: 5),
+                margin: EdgeInsets.only(right: 10,left: 5),
                 decoration: BoxDecoration(
                   color: AppColors.blue_color,
                   borderRadius: BorderRadius.circular(10),
@@ -94,7 +110,7 @@ class TaskItem extends StatelessWidget {
               taskModel.isDone==true ?
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Text("Done!",
+                child: Text("done".tr(),
                   style: TextTheme.of(context).displayMedium
                 ),
               )

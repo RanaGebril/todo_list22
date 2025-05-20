@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ import 'package:todo_list22/splash_screen.dart';
 void main() async{
   // tell the app there is an initialization before runApp
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
   //initialize firebase
   await Firebase.initializeApp(
@@ -23,7 +25,10 @@ void main() async{
   runApp(
       ChangeNotifierProvider(
         create: (context) => AppProvider(),
-          child: const MyApp()));
+          child: EasyLocalization(
+              supportedLocales: [Locale('en'), Locale('ar')],
+          path: 'assets/translations',
+          child: const MyApp())));
 }
 
 class MyApp extends StatelessWidget {
@@ -35,6 +40,9 @@ class MyApp extends StatelessWidget {
     var provider_opject=Provider.of<AppProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+        localizationsDelegates: context.localizationDelegates,
+       supportedLocales: context.supportedLocales,
+       locale: context.locale,
       themeMode: provider_opject.AppTheme,
       theme: AppThemeData.lightMode,
       darkTheme: AppThemeData.darkMode,
