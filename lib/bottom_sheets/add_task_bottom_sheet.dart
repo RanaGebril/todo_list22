@@ -19,65 +19,83 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   DateTime? selectedDate = DateTime.now();
   var titleController = TextEditingController();
   var subTitleController = TextEditingController();
+  var formKey=GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     var provider_opject=Provider.of<AppProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            "addNewTask".tr(),
-            style: TextTheme.of(context).titleMedium?.copyWith(
-              fontSize:20
-            ),
+      child: Form(
+        key: formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "addNewTask".tr(),
+              style: TextTheme.of(context).titleMedium?.copyWith(
+                fontSize:20
+              ),
 
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 10),
-
-          TextFormItem(controller: titleController, label: "taskTitle".tr(), type: TextInputType.text,),
-          SizedBox(height: 25),
-          TextFormItem(controller: subTitleController, label: "description".tr() ,type: TextInputType.text),
-          SizedBox(height: 20),
-
-          InkWell(
-            onTap: () {
-              selectDateFun(context,provider_opject);
-            },
-            child: Text(
-              selectedDate.toString().substring(0, 10),
               textAlign: TextAlign.center,
-              style: TextTheme.of(context).titleSmall?.copyWith(
-                color: AppColors.gray_color3,
+            ),
+            SizedBox(height: 10),
+
+            TextFormItem(
+              controller: titleController,
+              label: "taskTitle".tr(),
+              type: TextInputType.text,
+            validation: (titleController) {
+              if(titleController==null || titleController.isEmpty){
+                return "Enter task tittle";
+              }
+              return null;
+            },),
+            SizedBox(height: 25),
+            TextFormItem(
+                controller: subTitleController,
+                label: "description".tr() ,
+                type: TextInputType.text,
+            ),
+            SizedBox(height: 20),
+            InkWell(
+              onTap: () {
+                selectDateFun(context,provider_opject);
+              },
+              child: Text(
+                selectedDate.toString().substring(0, 10),
+                textAlign: TextAlign.center,
+                style: TextTheme.of(context).titleSmall?.copyWith(
+                  color: AppColors.gray_color3,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              TaskModel task = TaskModel(
-                title: titleController.text,
-                subTitle: subTitleController.text,
-                 userId: FirebaseAuth.instance.currentUser!.uid,
-                // to sdd the date at the start of the day 00:00
-                date: DateUtils.dateOnly(selectedDate!).millisecondsSinceEpoch,
-              );
-              Firebasefunctions.addTask(task).then((value) {
-                Navigator.pop(context);
-              });
-            },
-            child: Text(
-              "add".tr(),
-              style: TextTheme.of(context).titleSmall?.copyWith(
-                color: AppColors.white_color,
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                if(formKey.currentState!.validate()){
+                  TaskModel task = TaskModel(
+                    title: titleController.text,
+                    subTitle: subTitleController.text,
+                    userId: FirebaseAuth.instance.currentUser!.uid,
+                    // to sdd the date at the start of the day 00:00
+                    date: DateUtils.dateOnly(selectedDate!).millisecondsSinceEpoch,
+                  );
+                  Firebasefunctions.addTask(task).then((value) {
+                    Navigator.pop(context);
+                  });
+                }
+              },
+              child: Text(
+                "add".tr(),
+                style: TextTheme.of(context).titleSmall?.copyWith(
+                  color: AppColors.white_color,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

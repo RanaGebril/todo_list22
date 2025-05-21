@@ -15,6 +15,7 @@ class Signup extends StatelessWidget {
   var phoneController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+  var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,72 +29,141 @@ class Signup extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormItem(
-                label: "firstName".tr(),
-                controller: firstNameController,
-                  type: TextInputType.text
-              ),
-              SizedBox(height: 30),
-              TextFormItem(label: "lastName".tr(), controller: lastNameController,type: TextInputType.text),
-              SizedBox(height: 30),
-              TextFormItem(label: "Phone".tr(),controller: phoneController, type: TextInputType.phone),
-              SizedBox(height: 30),
-              TextFormItem(label: "email".tr(), controller: emailController ,type: TextInputType.emailAddress),
-              SizedBox(height: 30),
-              TextFormItem(label: "password".tr(), controller: passwordController ,type: TextInputType.text),
-              SizedBox(height: 40),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextFormItem(
+                  label: "firstName".tr(),
+                  controller: firstNameController,
+                  type: TextInputType.text,
+                  validation: (firstNameController) {
+                    if (firstNameController == null ||
+                        firstNameController.isEmpty) {
+                      return "First name cannot be empty";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 30),
+                TextFormItem(
+                  label: "lastName".tr(),
+                  controller: lastNameController,
+                  type: TextInputType.text,
+                  validation: (lastNameController){
+                    if(lastNameController  == null || lastNameController.isEmpty){
+                      return"Last name cannot be empty";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 30),
+                TextFormItem(
+                  label: "Phone".tr(),
+                  controller: phoneController,
+                  type: TextInputType.phone,
+                  validation: (phoneController){
+                    if(phoneController  == null || phoneController.isEmpty){
+                      return"Phone number is required";
+                    }
+                    final bool phonelValid =
+                    RegExp(r'^01[0-2,5][0-9]{8}$').hasMatch(phoneController!);
+                    if(!phonelValid){
+                      return"Enter a valid number";
+                    }
+                    return null;
+                  },
 
-              ElevatedButton(
-                onPressed: () {
-                  Firebasefunctions.createAccount(
-                    email: emailController.text,
-                    password: passwordController.text,
-                    firstName: firstNameController.text,
-                    lastName: lastNameController.text,
-                    phone: phoneController.text,
-                    onSucess: () {
-                      provider_object.initUser().then(
+                ),
+                SizedBox(height: 30),
+                TextFormItem(
+                  label: "email".tr(),
+                  controller: emailController,
+                  type: TextInputType.emailAddress,
+                  validation: (emailController){
+                    if(emailController == null || emailController.isEmpty){
+                      return"Email is required";
+                    }
+                    final bool emailValid =
+                        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[gmail]+\.[com]+")
+                          .hasMatch(emailController!);
+                    if(!emailValid){
+                      return"Enter a valid email";
+                    }
+                    return null;
+                  }
+                ),
+                SizedBox(height: 30),
+                TextFormItem(
+                  label: "password".tr(),
+                  controller: passwordController,
+                  type: TextInputType.text,
+                  validation: (passwordController) {
+                    if(passwordController == null || passwordController.isEmpty){
+                      return"Password is required";
+                    }
+                    final bool passwordValid = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+                        .hasMatch(passwordController!);
+                    if(!passwordValid){
+                      return"PEnter valid password";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 40),
+
+                ElevatedButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      Firebasefunctions.createAccount(
+                        email: emailController.text,
+                        password: passwordController.text,
+                        firstName: firstNameController.text,
+                        lastName: lastNameController.text,
+                        phone: phoneController.text,
+                        onSucess: () {
+                          provider_object.initUser().then(
                             (value) => Navigator.pushNamedAndRemoveUntil(
                               context,
                               HomeScreen.route_name,
-                                  (route) => false,
-                            ));
-
-                    },
-                    onError: (String message) {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text("error".tr()),
-                            content: Text(message),
-                            actions: [
-                              ElevatedButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text("back".tr()),
-                              ),
-                            ],
+                              (route) => false,
+                            ),
+                          );
+                        },
+                        onError: (String message) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("error".tr()),
+                                content: Text(message),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text("back".tr()),
+                                  ),
+                                ],
+                              );
+                            },
                           );
                         },
                       );
-                    },
-                  );
-                  // Navigator.pushNamed(context, HomeScreen.route_name);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Text(
-                    "signUp".tr(),
-                    style: TextTheme.of(
-                      context,
-                    ).titleSmall?.copyWith(color: AppColors.white_color),
+                      // Navigator.pushNamed(context, HomeScreen.route_name);
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                      "signUp".tr(),
+                      style: TextTheme.of(
+                        context,
+                      ).titleSmall?.copyWith(color: AppColors.white_color),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
