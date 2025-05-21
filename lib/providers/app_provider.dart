@@ -1,11 +1,28 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_list22/firebaseFunctions.dart';
+import 'package:todo_list22/models/user_model.dart';
 
 class AppProvider extends ChangeNotifier{
   ThemeMode AppTheme=ThemeMode.light;
+  UserModel? userModel;
+  User? firebaseUser; // get logged in user data from firebase to store it in user model
+
 
   AppProvider(){
     getTheme();
+    firebaseUser=FirebaseAuth.instance.currentUser;
+    if (firebaseUser != null){ //if null no logged in user
+      initUser();
+      notifyListeners();
+    }
+  }
+
+  Future<void> initUser() async{
+     userModel= await Firebasefunctions.getUserData();
+     print("UserModel loaded: ${userModel?.firstName}");
+     notifyListeners();
   }
 
    changeTheme(ThemeMode theme) async{
@@ -33,6 +50,4 @@ class AppProvider extends ChangeNotifier{
        notifyListeners(); // Notify listeners after setting the theme
      }
    }
-
-
 }

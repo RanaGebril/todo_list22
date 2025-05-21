@@ -26,6 +26,8 @@
   "age": "العمر",
   "email": "البريد الإلكتروني",
   "password": "كلمه المرور",
+  "firstName": "الاسم",
+  "lastName": "اسم العائله",
   "phone": "رقم الهاتف",
   "doNotHaveAccount": "ليس لديك حساب ؟؟ ",
   "haveAccount": "لديك حساب بالفعل ؟؟ ",

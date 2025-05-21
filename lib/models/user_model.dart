@@ -15,7 +15,7 @@ class UserModel {
 
   UserModel.fromJson(Map<String, dynamic> json)
     : this(
-        userId: json['usedId'],
+        userId: json['userId'],
         firstName: json['firstName'],
         lastName: json['lastName'],
         phone: json['phone'],
@@ -28,6 +28,7 @@ class UserModel {
       'firstName': firstName,
       'lastName': lastName,
       'phone': phone,
+      'email': email
     };
   }
 

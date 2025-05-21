@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list22/app_colors.dart';
 import 'package:todo_list22/firebaseFunctions.dart';
 import 'package:todo_list22/home_screen.dart';
+import 'package:todo_list22/providers/app_provider.dart';
+import 'package:todo_list22/register/sign_up.dart';
 import 'package:todo_list22/text_form/text_form_item.dart';
 
 class LogIn extends StatelessWidget {
@@ -13,6 +16,7 @@ class LogIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var provider_opject = Provider.of<AppProvider>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -23,9 +27,17 @@ class LogIn extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextFormItem(label: "email".tr(), controller: emailController , type: TextInputType.emailAddress),
+            TextFormItem(
+              label: "email".tr(),
+              controller: emailController,
+              type: TextInputType.emailAddress,
+            ),
             SizedBox(height: 25),
-            TextFormItem(label: "password".tr(), controller: passwordController , type: TextInputType.text,),
+            TextFormItem(
+              label: "password".tr(),
+              controller: passwordController,
+              type: TextInputType.text,
+            ),
             SizedBox(height: 20),
 
             ElevatedButton(
@@ -34,10 +46,12 @@ class LogIn extends StatelessWidget {
                   email: emailController.text,
                   password: passwordController.text,
                   onSucess: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      HomeScreen.route_name,
-                      (route) => false,
+                    provider_opject.initUser().then(
+                      (value) => Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        HomeScreen.route_name,
+                        (route) => false,
+                      ),
                     );
                   },
                   onError: (String message) {
@@ -62,7 +76,7 @@ class LogIn extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(15),
                 child: Text(
-                  "Login".tr(),
+                  "logIn".tr(),
                   style: TextTheme.of(
                     context,
                   ).titleSmall?.copyWith(color: AppColors.white_color),
@@ -73,7 +87,7 @@ class LogIn extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: GestureDetector(
-        onTap: () => Navigator.pop(context),
+        onTap: () => Navigator.pushNamed(context, Signup.route_name),
         child: Padding(
           padding: const EdgeInsets.only(bottom: 40.0),
           child: Text.rich(

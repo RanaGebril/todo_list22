@@ -5,7 +5,6 @@ import 'package:todo_list22/app_colors.dart';
 import 'package:todo_list22/firebaseFunctions.dart';
 import 'package:todo_list22/home_screen.dart';
 import 'package:todo_list22/providers/app_provider.dart';
-import 'package:todo_list22/register/log_in.dart';
 import 'package:todo_list22/text_form/text_form_item.dart';
 
 class Signup extends StatelessWidget {
@@ -40,7 +39,7 @@ class Signup extends StatelessWidget {
               SizedBox(height: 30),
               TextFormItem(label: "lastName".tr(), controller: lastNameController,type: TextInputType.text),
               SizedBox(height: 30),
-              TextFormItem(controller: phoneController, label: "Phone",type: TextInputType.phone),
+              TextFormItem(label: "Phone".tr(),controller: phoneController, type: TextInputType.phone),
               SizedBox(height: 30),
               TextFormItem(label: "email".tr(), controller: emailController ,type: TextInputType.emailAddress),
               SizedBox(height: 30),
@@ -56,11 +55,13 @@ class Signup extends StatelessWidget {
                     lastName: lastNameController.text,
                     phone: phoneController.text,
                     onSucess: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        HomeScreen.route_name,
-                        (route) => false,
-                      );
+                      provider_object.initUser().then(
+                            (value) => Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              HomeScreen.route_name,
+                                  (route) => false,
+                            ));
+
                     },
                     onError: (String message) {
                       showDialog(
@@ -99,7 +100,7 @@ class Signup extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 30.0),
         child: GestureDetector(
-          onTap: () => Navigator.pushNamed(context, LogIn.route_name),
+          onTap: () => Navigator.pop(context),
           child: Text.rich(
             textAlign: TextAlign.center,
             TextSpan(

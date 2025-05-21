@@ -12,14 +12,21 @@ class TextFormItem extends StatelessWidget {
     return TextFormField(
       controller: controller,
       keyboardType: type,
+      cursorColor: AppColors.white_color,
       style: TextTheme.of(context).displaySmall,
       decoration: InputDecoration(
         label: Text(label, style: TextTheme.of(context).displaySmall),
         focusColor: AppColors.blue_color,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25),
+          borderSide: BorderSide(
+            color: AppColors.blue_color
+          )
         ),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25),
+        ),
       ),
     );
   }

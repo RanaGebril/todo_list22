@@ -82,7 +82,7 @@ class Firebasefunctions {
         phone: phone,
 
       );
-      addUser(user);
+      await addUser(user);
         onSucess();
 
     } on FirebaseAuthException catch (e) {
@@ -105,6 +105,9 @@ class Firebasefunctions {
       );
       if(credential.user!.emailVerified==true){
         onSucess();
+      }
+      else{
+        onError("Please check your email and verify ");
       }
 
     } on FirebaseAuthException catch (e) {
@@ -134,12 +137,18 @@ class Firebasefunctions {
     var collection=getUsersCollection();
 
     // create  empty document
-    var docRef=collection.doc();
+    var docRef=collection.doc(user.userId);
 
     // the id from authentication
-    user.userId = user.userId;
+    // user.userId = ;
 
     //   give values to the document
     return docRef.set(user);
+  }
+
+  static Future<UserModel?> getUserData() async{
+    var collection=getUsersCollection();
+    DocumentSnapshot<UserModel> userDoc = await collection.doc(FirebaseAuth.instance.currentUser!.uid).get();
+    return userDoc.data();
   }
 }

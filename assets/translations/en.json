@@ -28,6 +28,7 @@
   "password": "Password",
   "firstName": "First name",
   "lastName": "Last name",
+  "phone": "Phone",
   "doNotHaveAccount": "Don’t have an account ?? ",
   "haveAccount": "Already have an account ?? ",
   "error": "Error",

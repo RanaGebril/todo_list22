@@ -49,7 +49,9 @@ class ThemeDropdown extends StatelessWidget {
           value: ThemeMode.dark,
         ),
       ],
-      dropdownColor: AppColors.white_color,
+      dropdownColor:  provider_object.AppTheme==ThemeMode.light?
+      AppColors.white_color:
+      AppColors.secondry_dark,
 
       onChanged: (themeToChange) {
         provider_object.changeTheme(themeToChange!);

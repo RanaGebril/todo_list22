@@ -49,7 +49,9 @@ class LanguageDropdown extends StatelessWidget {
           value: Locale("ar"),
         ),
       ],
-      dropdownColor: AppColors.white_color,
+      dropdownColor: provider_object.AppTheme==ThemeMode.light?
+      AppColors.white_color:
+          AppColors.secondry_dark,
 
       onChanged: (language) {
         context.setLocale(language!);
