@@ -57,40 +57,40 @@ class Firebasefunctions {
   static updateTask(TaskModel task){
     getTasksCollection().doc(task.id).update(task.toJson());
   }
-
-  static createAccount(
-      {required String email,
-        required String password,
-        required Function onSucess,
-        required Function onError,
-        required String firstName,
-        required String lastName,
-        required String phone,
-      })async{
-    try {
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      await credential.user!.sendEmailVerification();
-
-      UserModel user=UserModel(
-        userId: credential.user!.uid,
-        email: email ,
-        firstName: firstName,
-        lastName: lastName,
-        phone: phone,
-
-      );
-      await addUser(user);
-        onSucess();
-
-    } on FirebaseAuthException catch (e) {
-      onError(e.message);
-    } catch (e) {
-      onError(e.toString());
-    }
-  }
+  //
+  // static createAccount(
+  //     {required String email,
+  //       required String password,
+  //       required Function onSucess,
+  //       required Function onError,
+  //       required String firstName,
+  //       required String lastName,
+  //       required String phone,
+  //     })async{
+  //   try {
+  //     final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+  //       email: email,
+  //       password: password,
+  //     );
+  //     await credential.user!.sendEmailVerification();
+  //
+  //     UserModel user=UserModel(
+  //       userId: credential.user!.uid,
+  //       email: email ,
+  //       firstName: firstName,
+  //       lastName: lastName,
+  //       phone: phone,
+  //
+  //     );
+  //     await addUser(user);
+  //       onSucess();
+  //
+  //   } on FirebaseAuthException catch (e) {
+  //     onError(e.message);
+  //   } catch (e) {
+  //     onError(e.toString());
+  //   }
+  // }
 
   // static signIn ({required String email,
   //   required String password,

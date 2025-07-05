@@ -9,7 +9,7 @@ import 'package:todo_list22/firebase_options.dart';
 import 'package:todo_list22/home_screen.dart';
 import 'package:todo_list22/providers/app_provider.dart';
 import 'package:todo_list22/register/login/log_in.dart';
-import 'package:todo_list22/register/sign_up.dart';
+import 'package:todo_list22/register/signup/sign_up.dart';
 import 'package:todo_list22/splash_screen.dart';
 
 void main() async{

@@ -2,21 +2,41 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list22/app_colors.dart';
+import 'package:todo_list22/base.dart';
 import 'package:todo_list22/firebaseFunctions.dart';
 import 'package:todo_list22/home_screen.dart';
 import 'package:todo_list22/providers/app_provider.dart';
+import 'package:todo_list22/register/signup/signup_connector.dart';
+import 'package:todo_list22/register/signup/signup_view_model.dart';
 import 'package:todo_list22/text_form/text_form_item.dart';
 
-class Signup extends StatelessWidget {
+class Signup extends StatefulWidget {
   static const String route_name = "sign-up";
   Signup({super.key});
+
+  @override
+  State<Signup> createState() => _SignupState();
+}
+
+
+class _SignupState extends BaseView<SignupViewModel,Signup> implements SignupConnector {
   var firstNameController = TextEditingController();
+
   var lastNameController = TextEditingController();
+
   var phoneController = TextEditingController();
+
   var emailController = TextEditingController();
+
   var passwordController = TextEditingController();
+
   var formKey = GlobalKey<FormState>();
 
+  @override
+  void initState() {
+    super.initState();
+    viewModel.connector=this;
+  }
   @override
   Widget build(BuildContext context) {
     var provider_object = Provider.of<AppProvider>(context);
@@ -116,52 +136,59 @@ class Signup extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      Firebasefunctions.createAccount(
-                        email: emailController.text,
-                        password: passwordController.text,
-                        firstName: firstNameController.text,
-                        lastName: lastNameController.text,
-                        phone: phoneController.text,
-                        onSucess: () {
-                          provider_object.initUser().then(
-                            (value) => Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              HomeScreen.route_name,
-                              (route) => false,
-                            ),
-                          );
-                        },
-                        onError: (String message) {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text("error".tr()),
-                                content: Text(message),
-                                actions: [
-                                  ElevatedButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: Text("back".tr()),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      );
-                      // Navigator.pushNamed(context, HomeScreen.route_name);
+                      viewModel.createAccount(
+                          email: emailController.text,
+                          password: passwordController.text,
+                          firstName: firstNameController.text,
+                          lastName: lastNameController.text,
+                          phone: phoneController.text);
                     }
+                    // onSucess: () {
+                    //   provider_object.initUser().then(
+                    //     (value) => Navigator.pushNamedAndRemoveUntil(
+                    //       context,
+                    //       HomeScreen.route_name,
+                    //       (route) => false,
+                    //     ),
+                    //   );
+                    // },
+                    //   onError: (String message) {
+                    //     showDialog(
+                    //       context: context,
+                    //       builder: (context) {
+                    //         return AlertDialog(
+                    //           title: Text("error".tr()),
+                    //           content: Text(message),
+                    //           actions: [
+                    //             ElevatedButton(
+                    //               onPressed: () => Navigator.pop(context),
+                    //               child: Text("back".tr()),
+                    //             ),
+                    //           ],
+                    //         );
+                    //       },
+                    //     );
+                    //   },
+                    // );
+                    // Navigator.pushNamed(context, HomeScreen.route_name);
+                    // }
+                    // },
+
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
                       "signUp".tr(),
-                      style: TextTheme.of(
+                      style: TextTheme
+                          .of(
                         context,
-                      ).titleSmall?.copyWith(color: AppColors.white_color),
+                      )
+                          .titleSmall
+                          ?.copyWith(color: AppColors.white_color),
                     ),
                   ),
-                ),
+                  )
+
               ],
             ),
           ),
@@ -191,5 +218,19 @@ class Signup extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  SignupViewModel initMyViewModel() {
+    return SignupViewModel();
+  }
+
+  @override
+  void goToHome() {
+    Navigator.pushNamedAndRemoveUntil(
+              context,
+              HomeScreen.route_name,
+              (route) => false,
+            );
   }
 }

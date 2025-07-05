@@ -7,7 +7,7 @@ import 'package:todo_list22/home_screen.dart';
 import 'package:todo_list22/providers/app_provider.dart';
 import 'package:todo_list22/register/login/login_connector.dart';
 import 'package:todo_list22/register/login/login_view_model.dart';
-import 'package:todo_list22/register/sign_up.dart';
+import 'package:todo_list22/register/signup/sign_up.dart';
 import 'package:todo_list22/text_form/text_form_item.dart';
 
 class LogIn extends StatefulWidget{
