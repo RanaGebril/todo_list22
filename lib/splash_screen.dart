@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list22/home_screen.dart';
 import 'package:todo_list22/providers/app_provider.dart';
-import 'package:todo_list22/register/log_in.dart';
+import 'package:todo_list22/register/login/log_in.dart';
 import 'app_colors.dart';
 import 'dart:async';
 

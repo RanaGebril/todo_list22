@@ -92,28 +92,28 @@ class Firebasefunctions {
     }
   }
 
-  static signIn ({required String email,
-    required String password,
-    required Function onSucess,
-    required Function onError,
-
-  })async{
-    try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email,
-          password: password
-      );
-      if(credential.user!.emailVerified==true){
-        onSucess();
-      }
-      else{
-        onError("Please check your email and verify ");
-      }
-
-    } on FirebaseAuthException catch (e) {
-      onError(e.message);
-    }
-  }
+  // static signIn ({required String email,
+  //   required String password,
+  //   required Function onSucess,
+  //   required Function onError,
+  //
+  // })async{
+  //   try {
+  //     final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+  //         email: email,
+  //         password: password
+  //     );
+  //     if(credential.user!.emailVerified==true){
+  //       onSucess();
+  //     }
+  //     else{
+  //       onError("Please check your email and verify ");
+  //     }
+  //
+  //   } on FirebaseAuthException catch (e) {
+  //     onError(e.message);
+  //   }
+  // }
 
   static Future<void> logOut() async{
     await FirebaseAuth.instance.signOut();

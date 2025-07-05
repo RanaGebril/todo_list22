@@ -6,7 +6,7 @@ import 'package:todo_list22/Taps/Tasks/task_tab.dart';
 import 'package:todo_list22/bottom_sheets/add_task_bottom_sheet.dart';
 import 'package:todo_list22/firebaseFunctions.dart';
 import 'package:todo_list22/providers/app_provider.dart';
-import 'package:todo_list22/register/log_in.dart';
+import 'package:todo_list22/register/login/log_in.dart';
 import 'Taps/settings/settings_tab.dart';
 import 'app_colors.dart';
 

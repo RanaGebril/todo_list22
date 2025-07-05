@@ -11,7 +11,7 @@ class LanguageDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     var provider_object = Provider.of<AppProvider>(context);
     return DropdownButtonFormField<Locale>(
-      value: Locale("en"),
+      value: context.locale,
       decoration: InputDecoration(
         border: InputBorder.none,
 

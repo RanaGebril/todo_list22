@@ -1,22 +1,36 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list22/app_colors.dart';
-import 'package:todo_list22/firebaseFunctions.dart';
+import 'package:todo_list22/base.dart';
 import 'package:todo_list22/home_screen.dart';
 import 'package:todo_list22/providers/app_provider.dart';
+import 'package:todo_list22/register/login/login_connector.dart';
+import 'package:todo_list22/register/login/login_view_model.dart';
 import 'package:todo_list22/register/sign_up.dart';
 import 'package:todo_list22/text_form/text_form_item.dart';
 
-class LogIn extends StatelessWidget {
+class LogIn extends StatefulWidget{
   static const String route_name = "log_in";
   LogIn({super.key});
+
+  @override
+  State<LogIn> createState() => _LogInState();
+}
+
+
+
+class _LogInState extends BaseView<LoginViewModel,LogIn> implements LoginConnector{
   var emailController = TextEditingController();
+
   var passwordController = TextEditingController();
+
   var formKey=GlobalKey<FormState>();
 
+  void initState() {
+    super.initState();
+    viewModel.connector=this;
+  }
   @override
   Widget build(BuildContext context) {
     var provider_opject = Provider.of<AppProvider>(context);
@@ -63,35 +77,35 @@ class LogIn extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   if(formKey.currentState!.validate()){
-                    Firebasefunctions.signIn(
+                    viewModel!.signIn(
                       email: emailController.text,
                       password: passwordController.text,
-                      onSucess: () {
-                        provider_opject.initUser().then(
-                              (value) => Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            HomeScreen.route_name,
-                                (route) => false,
-                          ),
-                        );
-                      },
-                      onError: (String message) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text("error".tr()),
-                              content: Text(message),
-                              actions: [
-                                ElevatedButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text("back".tr()),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
+                      // onSucess: () {
+                      //   provider_opject.initUser().then(
+                      //         (value) => Navigator.pushNamedAndRemoveUntil(
+                      //       context,
+                      //       HomeScreen.route_name,
+                      //           (route) => false,
+                      //     ),
+                      //   );
+                      // },
+                      // // onError: (String message) {
+                      // //   // showDialog(
+                      // //   //   context: context,
+                      // //   //   builder: (context) {
+                      // //   //     return AlertDialog(
+                      // //   //       title: Text("error".tr()),
+                      // //   //       content: Text(message),
+                      // //   //       actions: [
+                      // //   //         ElevatedButton(
+                      // //   //           onPressed: () => Navigator.pop(context),
+                      // //   //           child: Text("back".tr()),
+                      // //   //         ),
+                      // //   //       ],
+                      // //   //     );
+                      // //   //   },
+                      // //   // );
+                      // // },
                     );
                   }
                 },
@@ -134,4 +148,15 @@ class LogIn extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  goToHome() {
+   Navigator.pushNamed(context, HomeScreen.route_name);
+  }
+
+  @override
+  LoginViewModel initMyViewModel() {
+    return LoginViewModel();
+  }
+
 }
